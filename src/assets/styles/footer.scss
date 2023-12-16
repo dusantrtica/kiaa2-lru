@@ -1,0 +1,112 @@
+$skin-tones: (
+  'neutral': #ffd225,
+  '1f3fb': #ffdfbd,
+  '1f3fc': #e9c197,
+  '1f3fd': #c88e62,
+  '1f3fe': #a86637,
+  '1f3ff': #60463a
+);
+
+// picker footer
+.v3-emoji-picker .v3-footer {
+  font-size: 14px;
+  border-top: 1px solid #dddddd;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  .v3-tone,
+  .v3-foot-left {
+    display: flex;
+    align-items: center;
+    img {
+      width: 20px;
+      display: block;
+    }
+    > span:first-child {
+      margin-right: 6px;
+    }
+  }
+  .v3-foot-left {
+    > span.v3-text {
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .v3-tone {
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    > span {
+      display: inline-flex;
+      vertical-align: top;
+    }
+    .v3-text {
+      font-size: 13px;
+    }
+    .v3-icon {
+      display: inline-flex;
+      height: 15px;
+      width: 15px;
+      vertical-align: middle;
+      align-self: center;
+      border: 2px solid rgba(#000, 0.2);
+
+      @each $key, $val in $skin-tones {
+        &.v3-tone-#{$key} {
+          background-color: #{$val};
+        }
+      }
+    }
+    .is-mac span {
+      font-family: 'Apple Color Emoji';
+    }
+  }
+}
+
+.v3-skin-tones {
+  position: absolute;
+  height: 100%;
+  width: 60%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 15px;
+  opacity: 0;
+  visibility: hidden;
+  transition: 200ms;
+  border-radius: 0 0 10px 10px;
+  &.v3-is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .v3-skin-tone {
+    display: inline-block;
+    height: 15px;
+    width: 25px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: 0ms;
+    &:hover {
+      transform: scale(1.1);
+      transition: 200ms;
+    }
+  }
+  .v3-skin- {
+    @each $key, $val in $skin-tones {
+      &tone-#{$key} {
+        color: #{$val};
+        background-color: #{$val};
+      }
+    }
+  }
+}

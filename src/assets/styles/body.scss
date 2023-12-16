@@ -1,0 +1,77 @@
+.v3-emoji-picker {
+  // picker body
+  .v3-body {
+    padding: 0 0 15px 11px;
+    min-height: 0;
+    flex-grow: 1;
+    .v3-body-inner {
+      flex-grow: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100%;
+      padding-right: 11px;
+
+      .v3-group {
+        h5 {
+          margin: 0;
+          top: 0;
+          padding: 7px 0 3px 4px;
+          z-index: 2;
+          &.v3-sticky {
+            position: sticky;
+          }
+        }
+
+        .v3-emojis {
+          display: flex;
+          font-size: 18px;
+          flex-wrap: wrap;
+          button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            margin: 0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-basis: 12.5%;
+            max-width: 12.5%;
+            flex-grow: 1;
+            padding: 0;
+            font-size: 22px;
+            position: relative;
+            &::after {
+              content: '';
+              width: 100%;
+              padding-bottom: 100%;
+            }
+            span {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            img {
+              max-width: 100%;
+              padding: 4px;
+            }
+
+            span,
+            img {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+
+      &.is-mac .v3-emojis button {
+        font-family: 'Apple Color Emoji';
+      }
+    }
+  }
+}
