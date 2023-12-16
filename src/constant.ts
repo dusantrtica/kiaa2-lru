@@ -1,4 +1,4 @@
-import { ColorTheme, Emoji, GroupNames } from './types'
+import { type ColorTheme, type Emoji, type GroupNames } from './types'
 
 export const EMOJI_REMOTE_SRC =
   'https://cdn.jsdelivr.net/npm/emoji-datasource-apple@6.0.1/img/apple/64'
