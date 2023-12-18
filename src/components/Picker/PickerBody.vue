@@ -16,6 +16,9 @@ const handleMouseEnter = (emoji: Emoji) => {}
 const handleClick = (emoji: Emoji) => {
   recentEmojis.add(emoji)
 }
+
+emojis.recent = recentEmojis.emojis
+
 const handleError = () => {}
 const isSticky = true
 const hasGroupNames = true
