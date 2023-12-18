@@ -30,7 +30,7 @@ export interface Emoji {
   [EMOJI_NAME_KEY]: string[]
   [EMOJI_UNICODE_KEY]: string
   [EMOJI_VARIATIONS_KEY]?: string[]
-  [EMOJI_RESULT_KEY]: string
+  [EMOJI_RESULT_KEY]?: string
   src?: string
 }
 

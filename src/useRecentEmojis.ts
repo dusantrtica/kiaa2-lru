@@ -3,8 +3,14 @@ import { reactive } from 'vue'
 
 const useRecentEmojis = () => {
   const emojis: Emoji[] = reactive([])
+
+  const indexedEmojis = new Map<string, Emoji>()
+
   const add = (emoji: Emoji) => {
-    emojis.push(emoji)
+    if (!indexedEmojis.has(emoji.u)) {
+      emojis.push(emoji)
+      indexedEmojis.set(emoji.u, emoji)
+    }
   }
 
   const isEmpty = () => emojis.length === 0
