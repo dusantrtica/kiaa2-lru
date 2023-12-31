@@ -1,24 +1,22 @@
 import type { Emoji } from '@/types'
 import { reactive } from 'vue'
+import { LinkedList } from './linkedList'
 
 const useRecentEmojis = () => {
-  const emojis: Emoji[] = reactive([])
+  const emojisList = new LinkedList()
 
   const indexedEmojis = new Map<string, Emoji>()
 
   const add = (emoji: Emoji) => {
     if (!indexedEmojis.has(emoji.u)) {
-      emojis.push(emoji)
       indexedEmojis.set(emoji.u, emoji)
+      emojisList.addNode(emoji)
     }
   }
 
-  const isEmpty = () => emojis.length === 0
-
   return {
     add,
-    isEmpty,
-    emojis
+    emojisList
   }
 }
 

@@ -1,4 +1,12 @@
-import { type Emoji } from './types'
+import { EMOJI_NAME_KEY } from './constant'
+import { EMOJI_EMOJI_KEY, type Emoji } from './types'
+
+const EmptyEmoji: Emoji = {
+  [EMOJI_NAME_KEY]: [''],
+  u: '',
+  r: ''
+}
+
 class ListNode {
   emoji: Emoji
   prevNode: ListNode | null
@@ -19,6 +27,22 @@ class LinkedList {
     this.tail = null
   }
 
+  [Symbol.iterator]() {
+    let currentNode = this.head
+
+    return {
+      next() {
+        if (!currentNode) return { value: EmptyEmoji, done: true }
+        const returnValue = {
+          value: currentNode.emoji,
+          done: false
+        }
+        currentNode = currentNode.nextNode
+        return returnValue
+      }
+    }
+  }
+
   addNode(emoji: Emoji) {
     if (this.head === null) {
       this.head = new ListNode(emoji)
@@ -30,6 +54,10 @@ class LinkedList {
       this.tail.prevNode = prevTail
       prevTail!.nextNode = this.tail
     }
+  }
+
+  isEmpty() {
+    return this.head === null
   }
 }
 

@@ -12,6 +12,12 @@ describe('useRecentEmojis', () => {
     recentEmojis.add(emoji)
     recentEmojis.add(emoji)
 
-    expect(recentEmojis.emojis).toEqual([emoji])
+    const emojisArray: Emoji[] = []
+    for (const emoji of recentEmojis.emojisList) {
+      emojisArray.push(emoji)
+    }
+
+    // Assert
+    expect(emojisArray).toEqual([emoji])
   })
 })

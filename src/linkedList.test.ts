@@ -42,4 +42,21 @@ describe('LinkedList', () => {
     expect(list.head?.nextNode).toEqual(list.tail)
     expect(list.tail?.prevNode).toEqual(list.head)
   })
+
+  it('should be able to iterate over list of elements', () => {
+    const list = new LinkedList()
+    list.addNode({ u: '123', n: ['name1'] })
+    list.addNode({ u: '456', n: ['name2'] })
+    list.addNode({ u: '789', n: ['name3'] })
+
+    const resultedArray = []
+    for (const elem of list) {
+      resultedArray.push(elem)
+    }
+    expect(resultedArray).toEqual([
+      { u: '123', n: ['name1'] },
+      { u: '456', n: ['name2'] },
+      { u: '789', n: ['name3'] }
+    ])
+  })
 })
