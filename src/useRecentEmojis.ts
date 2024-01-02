@@ -10,7 +10,7 @@ const useRecentEmojis = () => {
   const add = (emoji: Emoji) => {
     if (!indexedEmojis.has(emoji.u)) {
       indexedEmojis.set(emoji.u, emoji)
-      emojisList.addNode(emoji)
+      emojisList.prepend(emoji)
     }
   }
 

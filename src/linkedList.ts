@@ -7,7 +7,7 @@ const EmptyEmoji: Emoji = {
   r: ''
 }
 
-class ListNode {
+export class ListNode {
   emoji: Emoji
   prevNode: ListNode | null
   nextNode: ListNode | null
@@ -53,6 +53,29 @@ class LinkedList {
       this.tail = node
       this.tail.prevNode = prevTail
       prevTail!.nextNode = this.tail
+    }
+  }
+
+  prepend(emoji: Emoji) {
+    if (this.head === null) {
+      this.head = new ListNode(emoji)
+      this.tail = this.head
+    } else {
+      const newHead = new ListNode(emoji)
+      newHead.nextNode = this.head
+      this.head.prevNode = newHead
+      this.head = newHead
+    }
+  }
+
+  removeLastNode() {
+    if (this.tail === this.head) {
+      this.tail = this.head = null
+    } else {
+      if (this.tail) {
+        this.tail = this.tail?.prevNode
+        this.tail!.nextNode = null
+      }
     }
   }
 
