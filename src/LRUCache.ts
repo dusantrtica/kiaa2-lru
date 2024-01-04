@@ -14,13 +14,15 @@ export class LRUCache {
     this.list = new LinkedList()
   }
   capacity: number
-  nodesMap: Map<Emoji, ListNode> = new Map<Emoji, ListNode>()
+  nodesMap: Map<Emoji, ListNode | null> = new Map<Emoji, ListNode | null>()
   list: LinkedList
 
   evictLeastRecentlyUsed() {
     const emoji = this.list.tail?.emoji
-    this.nodesMap.delete(emoji)
-    this.list.removeLastNode()
+    if (emoji) {
+      this.nodesMap.delete(emoji)
+      this.list.removeLastNode()
+    }
   }
 
   addToCache(emoji: Emoji) {
@@ -31,7 +33,9 @@ export class LRUCache {
   insert(emoji: Emoji) {
     if (this.nodesMap.has(emoji)) {
       const node = this.nodesMap.get(emoji)
-      this.list.moveNodeToHead(node)
+      if (node) {
+        this.list.moveNodeToHead(node)
+      }
     } else {
       if (this.nodesMap.size === this.capacity) {
         this.evictLeastRecentlyUsed()

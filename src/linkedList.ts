@@ -68,7 +68,7 @@ class LinkedList {
     }
   }
 
-  moveNodeToHead(node: ListNode) {
+  moveNodeToHead(node: ListNode | null) {
     if (node === null || node === this.head) {
       return
     }

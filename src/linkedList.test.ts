@@ -177,7 +177,7 @@ describe('LinkedList', () => {
     list.addNode(e3)
 
     // Act
-    list.moveNodeToHead(list.head?.nextNode)
+    list.moveNodeToHead(list.head!.nextNode)
 
     // Assert
     expect(list.head?.emoji).toEqual(e2)
@@ -202,7 +202,7 @@ describe('LinkedList', () => {
     list.addNode(e3)
 
     // Act
-    list.moveNodeToHead(list.head?.nextNode)
+    list.moveNodeToHead(list.head!.nextNode)
     list.moveNodeToHead(list.tail)
     // Assert
     expect(list.head?.emoji).toEqual(e3)
