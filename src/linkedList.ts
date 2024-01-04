@@ -1,5 +1,5 @@
 import { EMOJI_NAME_KEY } from './constant'
-import { EMOJI_EMOJI_KEY, type Emoji } from './types'
+import { type Emoji } from './types'
 
 const EmptyEmoji: Emoji = {
   [EMOJI_NAME_KEY]: [''],
@@ -68,12 +68,36 @@ class LinkedList {
     }
   }
 
+  moveNodeToHead(node: ListNode) {
+    if (node === null || node === this.head) {
+      return
+    }
+
+    const prev = node.prevNode
+    const next = node.nextNode
+
+    if (prev) {
+      prev.nextNode = next
+    }
+
+    if (next) {
+      next.prevNode = prev
+    } else {
+      this.tail = node.prevNode
+    }
+
+    node.nextNode = this.head
+    this.head!.prevNode = node
+
+    this.head = node
+  }
+
   removeLastNode() {
     if (this.tail === this.head) {
       this.tail = this.head = null
     } else {
       if (this.tail) {
-        this.tail = this.tail?.prevNode
+        this.tail = this.tail.prevNode
         this.tail!.nextNode = null
       }
     }

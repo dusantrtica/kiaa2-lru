@@ -129,4 +129,90 @@ describe('LinkedList', () => {
     expect(list.head).toEqual(node2)
     expect(list.tail).toEqual(node1)
   })
+
+  it('moves head node to itself', () => {
+    // Arrange
+    const list = new LinkedList()
+    const e: Emoji = { u: '123', n: ['name1'] }
+    const node = new ListNode(e)
+    list.head = node
+
+    // Act
+    list.moveNodeToHead(node)
+
+    // Assert
+    expect(list.head).toEqual(node)
+  })
+
+  it('moves tail node to head', () => {
+    // Arrange
+    const list = new LinkedList()
+    const e1: Emoji = { u: '123', n: ['name1'] }
+    const e2: Emoji = { u: '456', n: ['name2'] }
+    list.addNode(e1)
+    list.addNode(e2)
+
+    // Act
+    list.moveNodeToHead(list.tail)
+
+    // Assert
+    const emojis: Emoji[] = []
+    expect(list.head?.emoji).toEqual(e2)
+    expect(list.tail?.emoji).toEqual(e1)
+    // Assert that iteration is not broken
+    for (const node of list) {
+      emojis.push(node)
+    }
+    expect(emojis).toEqual([e2, e1])
+  })
+
+  it('moves middle node to head', () => {
+    // Arrange
+    const list = new LinkedList()
+    const e1: Emoji = { u: '123', n: ['name1'] }
+    const e2: Emoji = { u: '456', n: ['name2'] }
+    const e3: Emoji = { u: '789', n: ['name2'] }
+    list.addNode(e1)
+    list.addNode(e2)
+    list.addNode(e3)
+
+    // Act
+    list.moveNodeToHead(list.head?.nextNode)
+
+    // Assert
+    expect(list.head?.emoji).toEqual(e2)
+    expect(list.head?.nextNode?.emoji).toEqual(e1)
+    expect(list.tail?.emoji).toEqual(e3)
+    const emojis: Emoji[] = []
+    // Assert that iteration is not broken
+    for (const node of list) {
+      emojis.push(node)
+    }
+    expect(emojis).toEqual([e2, e1, e3])
+  })
+
+  it('consecutively moves middle node and then last node to the head', () => {
+    // Arrange
+    const list = new LinkedList()
+    const e1: Emoji = { u: '123', n: ['name1'] }
+    const e2: Emoji = { u: '456', n: ['name2'] }
+    const e3: Emoji = { u: '789', n: ['name2'] }
+    list.addNode(e1)
+    list.addNode(e2)
+    list.addNode(e3)
+
+    // Act
+    list.moveNodeToHead(list.head?.nextNode)
+    list.moveNodeToHead(list.tail)
+    // Assert
+    expect(list.head?.emoji).toEqual(e3)
+    expect(list.head?.nextNode?.emoji).toEqual(e2)
+    expect(list.tail?.emoji).toEqual(e1)
+    const emojis: Emoji[] = []
+    // Assert that iteration is not broken
+    for (const node of list) {
+      emojis.push(node)
+    }
+    expect(emojis).toEqual([e3, e2, e1])
+  })
 })

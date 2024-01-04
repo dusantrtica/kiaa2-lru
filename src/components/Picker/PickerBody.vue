@@ -3,7 +3,7 @@ import type { Emoji, GroupKey } from '@/types'
 import emojisData, { type AllEmojis } from '../../data/emojis'
 import groups from '../../data/groups'
 import { unicodeToEmoji } from '../../helpers'
-import useRecentEmojis from '../../useRecentEmojis'
+import { LRUCache } from '../../LRUCache'
 import { reactive, ref } from 'vue'
 import { LinkedList } from '../../linkedList'
 
@@ -13,16 +13,16 @@ const forceRender = () => {
 }
 const emojis = reactive(emojisData)
 
-const recentEmojis = useRecentEmojis()
+const recentEmojis = new LRUCache(5)
 
 const platform = 'uknown'
 const handleMouseEnter = (emoji: Emoji) => {}
 const handleClick = (emoji: Emoji) => {
-  recentEmojis.add(emoji)
+  recentEmojis.insert(emoji)
   forceRender()
 }
 
-emojis.recent = recentEmojis.emojisList as unknown as Array<Emoji>
+emojis.recent = recentEmojis.list as unknown as Array<Emoji>
 
 const handleError = () => {}
 const isSticky = true
