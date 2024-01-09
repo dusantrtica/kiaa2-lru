@@ -42,8 +42,28 @@ const showEmojisGroup = (emojis: AllEmojis, groupKey: GroupKey) => {
 
   return true
 }
+
+const props = defineProps({
+  activeGroup: String,
+  searchValue: String
+})
+
+const isEmojiMatchingSearch = (query: string) => (emoji: Emoji) => {
+  return emoji.n.some((name: String) => name.toLocaleLowerCase().includes(query))
+}
+
+const filterEmojis = (emojis: Emoji[], searchPattern: string): Emoji[] => {
+  if (searchPattern) {
+    const query = searchPattern.toLocaleLowerCase()
+    return emojis.filter(isEmojiMatchingSearch(query))
+  }
+
+  return emojis
+}
 </script>
 <template>
+  {{ searchValue }}
+  {{ activeGroup }}
   <div class="v3-body" :key="componentKey">
     <div ref="bodyInner" :class="platform" class="v3-body-inner">
       <template v-if="groups.length">
@@ -57,7 +77,7 @@ const showEmojisGroup = (emojis: AllEmojis, groupKey: GroupKey) => {
           </h5>
           <div v-show="showEmojisGroup(emojis, group.key)" class="v3-emojis">
             <button
-              v-for="emoji in emojis[group.key]"
+              v-for="emoji in filterEmojis(emojis[group.key], props.searchValue)"
               :key="emoji.r"
               type="button"
               @mouseenter="handleMouseEnter(emoji)"

@@ -13,9 +13,6 @@ import recent from '../../assets/svgs/recent.svg'
 
 import groups from '../../data/groups'
 
-const placeholder = ref('')
-const searchValue = ref('')
-
 const icons = {
   smileys_people,
   animals_nature,
@@ -28,7 +25,16 @@ const icons = {
   recent
 }
 
-const updateActiveGroup = (groupKey: string) => {}
+defineProps({
+  searchValue: String,
+  activeGroupKey: String
+})
+
+const emits = defineEmits(['updateActiveGroup', 'update:searchValue'])
+
+const updateActiveGroup = (groupKey: string) => {
+  emits('updateActiveGroup', groupKey)
+}
 </script>
 
 <template>
@@ -51,7 +57,11 @@ const updateActiveGroup = (groupKey: string) => {}
     </div>
     <div class="v3-spacing" />
     <div class="v3-search">
-      <input v-model="searchValue" type="text" :placeholder="placeholder" />
+      <input
+        :value="searchValue"
+        @input="emits('update:searchValue', $event?.target?.value)"
+        type="text"
+      />
     </div>
   </div>
 </template>

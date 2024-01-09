@@ -106,6 +106,16 @@ class LinkedList {
   isEmpty() {
     return this.head === null
   }
+
+  filter(predicate: Function): Emoji[] {
+    const result: Emoji[] = []
+    for (const elem of this) {
+      if (predicate(elem)) {
+        result.push(elem)
+      }
+    }
+    return result
+  }
 }
 
 export { LinkedList }
