@@ -1,10 +1,8 @@
-import { EMOJI_NAME_KEY } from './constant'
 import { type Emoji } from './types'
 
 const EmptyEmoji: Emoji = {
-  [EMOJI_NAME_KEY]: [''],
-  u: '',
-  r: ''
+  n: [''],
+  u: ''
 }
 
 export class ListNode {
