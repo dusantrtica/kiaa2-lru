@@ -45,14 +45,20 @@ const showEmojisGroup = (emojis: AllEmojis, groupKey: GroupKey) => {
 
 const props = defineProps({
   activeGroup: String,
-  searchValue: String
+  searchValue: {
+    type: String,
+    default: ''
+  }
 })
 
 const isEmojiMatchingSearch = (query: string) => (emoji: Emoji) => {
   return emoji.n.some((name: String) => name.toLocaleLowerCase().includes(query))
 }
 
-const filterEmojis = (emojis: Emoji[], searchPattern: string): Emoji[] => {
+const filterEmojis = (
+  emojis: Emoji[] | LinkedList,
+  searchPattern: string
+): Emoji[] | LinkedList => {
   if (searchPattern) {
     const query = searchPattern.toLocaleLowerCase()
     return emojis.filter(isEmojiMatchingSearch(query))

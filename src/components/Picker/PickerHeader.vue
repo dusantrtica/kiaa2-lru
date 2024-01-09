@@ -32,6 +32,12 @@ defineProps({
 
 const emits = defineEmits(['updateActiveGroup', 'update:searchValue'])
 
+const handleSearchValue = (e: Event) => {
+  // @ts-ignore
+  const value = e.target.value
+  emits('update:searchValue', value)
+}
+
 const updateActiveGroup = (groupKey: string) => {
   emits('updateActiveGroup', groupKey)
 }
@@ -57,11 +63,7 @@ const updateActiveGroup = (groupKey: string) => {
     </div>
     <div class="v3-spacing" />
     <div class="v3-search">
-      <input
-        :value="searchValue"
-        @input="emits('update:searchValue', $event?.target?.value)"
-        type="text"
-      />
+      <input :value="searchValue" @input="handleSearchValue" type="text" />
     </div>
   </div>
 </template>
