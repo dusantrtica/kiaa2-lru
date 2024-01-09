@@ -75,7 +75,6 @@ filterAndSetAllEmojis()
 
 onBeforeUpdate(() => {
   filterAndSetAllEmojis()
-  forceRender()
 })
 </script>
 <template>
@@ -104,7 +103,6 @@ onBeforeUpdate(() => {
           </div>
         </div>
       </template>
-      <span v-else class="v3-no-result"> No emoji has been found! </span>
     </div>
   </div>
 </template>
