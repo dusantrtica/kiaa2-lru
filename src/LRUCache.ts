@@ -1,12 +1,4 @@
-import { EMOJI_NAME_KEY } from './constant'
 import { LinkedList, type ListNode } from './linkedList'
-import type { Emoji } from './types'
-
-const EmptyEmoji: Emoji = {
-  [EMOJI_NAME_KEY]: [''],
-  u: '',
-  r: ''
-}
 
 export class LRUCache<T> {
   constructor(capacity: number) {
@@ -25,14 +17,14 @@ export class LRUCache<T> {
     }
   }
 
-  addToCache(value: T) {
+  addToCache(key: any, value: T) {
     this.list.prepend(value)
-    this.nodesMap.set(value, this.list.head)
+    this.nodesMap.set(key, this.list.head)
   }
 
-  insert(elem: T) {
-    if (this.nodesMap.has(elem)) {
-      const node = this.nodesMap.get(elem)
+  put(key: any, value: T) {
+    if (this.nodesMap.has(key)) {
+      const node = this.nodesMap.get(key)
       if (node) {
         this.list.moveNodeToHead(node)
       }
@@ -40,8 +32,23 @@ export class LRUCache<T> {
       if (this.nodesMap.size === this.capacity) {
         this.evictLeastRecentlyUsed()
       }
-      this.addToCache(elem)
+      this.addToCache(key, value)
     }
+  }
+
+  get(key: any): T | null {
+    if (this.nodesMap.has(key)) {
+      const node = this.nodesMap.get(key)
+      if (node) {
+        this.list.moveNodeToHead(node)
+        return node.val
+      }
+    }
+    return null
+  }
+
+  insert(elem: T) {
+    return this.put(elem, elem)
   }
 
   isEmpty(): Boolean {
