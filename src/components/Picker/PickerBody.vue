@@ -4,8 +4,11 @@ import emojisData, { type AllEmojis } from '../../data/emojis'
 import groups from '../../data/groups'
 import { unicodeToEmoji } from '../../helpers'
 import { LRUCache } from '../../LRUCache'
-import { onBeforeUpdate, onMounted, onUpdated, reactive, ref } from 'vue'
+import { onBeforeUpdate, reactive, ref } from 'vue'
 import { LinkedList } from '../../linkedList'
+
+let params = new URLSearchParams(document.location.search)
+const cacheSize = parseInt(params.get('cacheSize') || '5')
 
 const componentKey = ref(0)
 const forceRender = () => {
@@ -13,13 +16,15 @@ const forceRender = () => {
 }
 const emojis = reactive(emojisData)
 
-const recentEmojis = new LRUCache(5)
+const recentEmojis = new LRUCache<Emoji>(cacheSize)
 
 const platform = 'uknown'
-const handleMouseEnter = (emoji: Emoji) => {}
-const handleClick = (emoji: Emoji) => {
-  recentEmojis.insert(emoji)
-  forceRender()
+const handleMouseEnter = (emoji: Emoji | null) => {}
+const handleClick = (emoji: Emoji | null) => {
+  if (emoji !== null) {
+    recentEmojis.insert(emoji)
+    forceRender()
+  }
 }
 
 emojis.recent = recentEmojis.list as unknown as Array<Emoji>
@@ -52,9 +57,9 @@ const isEmojiMatchingSearch = (query: string) => (emoji: Emoji) => {
 }
 
 const filterGroupEmojis = (
-  emojis: Emoji[] | LinkedList,
+  emojis: Emoji[] | LinkedList<Emoji>,
   searchPattern: string
-): Emoji[] | LinkedList => {
+): Emoji[] | LinkedList<Emoji> => {
   if (searchPattern) {
     const query = searchPattern.toLocaleLowerCase()
     return emojis.filter(isEmojiMatchingSearch(query))
@@ -63,7 +68,7 @@ const filterGroupEmojis = (
   return emojis
 }
 
-const filteredGroupsAndEmojis = new Map<string, Emoji[] | LinkedList>()
+const filteredGroupsAndEmojis = new Map<string, Emoji[] | LinkedList<Emoji>>()
 
 const filterAndSetAllEmojis = () => {
   for (const group of groups) {
@@ -88,17 +93,18 @@ onBeforeUpdate(() => {
             :class="isSticky ? `v3-sticky` : ``"
           >
             {{ group.title }}
+            <span v-if="group.key === 'recent'">{{ recentEmojis.size() }} / {{ cacheSize }}</span>
           </h5>
           <div v-show="showEmojisGroup(emojis, group.key)" class="v3-emojis">
             <button
               v-for="emoji in filteredGroupsAndEmojis.get(group.key)"
-              :key="emoji.u"
+              :key="emoji?.u"
               type="button"
               @mouseenter="handleMouseEnter(emoji)"
               @click="handleClick(emoji)"
             >
               <!-- Native emoji -->
-              <span>{{ unicodeToEmoji(emoji.u) }}</span>
+              <span>{{ unicodeToEmoji(emoji!.u) }}</span>
             </button>
           </div>
         </div>

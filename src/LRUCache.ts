@@ -48,6 +48,10 @@ export class LRUCache<T> {
     return this.list.isEmpty()
   }
 
+  size(): number {
+    return this.nodesMap.size
+  }
+
   [Symbol.iterator]() {
     let currentNode = this.list.head
 
