@@ -1,24 +1,19 @@
 import { type Emoji } from './types'
 
-const EmptyEmoji: Emoji = {
-  n: [''],
-  u: ''
-}
-
-export class ListNode {
-  emoji: Emoji
-  prevNode: ListNode | null
-  nextNode: ListNode | null
-  constructor(emoji: Emoji) {
-    this.emoji = emoji
+export class ListNode<T> {
+  val: T
+  prevNode: ListNode<T> | null
+  nextNode: ListNode<T> | null
+  constructor(elem: T) {
+    this.val = elem
     this.prevNode = null
     this.nextNode = null
   }
 }
 
-class LinkedList {
-  head: ListNode | null
-  tail: ListNode | null
+class LinkedList<T> {
+  head: ListNode<T> | null
+  tail: ListNode<T> | null
 
   constructor() {
     this.head = null
@@ -30,9 +25,9 @@ class LinkedList {
 
     return {
       next() {
-        if (!currentNode) return { value: EmptyEmoji, done: true }
+        if (!currentNode) return { value: null, done: true }
         const returnValue = {
-          value: currentNode.emoji,
+          value: currentNode.val,
           done: false
         }
         currentNode = currentNode.nextNode
@@ -41,32 +36,32 @@ class LinkedList {
     }
   }
 
-  addNode(emoji: Emoji) {
+  addNode(elem: T) {
     if (this.head === null) {
-      this.head = new ListNode(emoji)
+      this.head = new ListNode(elem)
       this.tail = this.head
     } else {
       const prevTail = this.tail
-      const node = new ListNode(emoji)
+      const node = new ListNode(elem)
       this.tail = node
       this.tail.prevNode = prevTail
       prevTail!.nextNode = this.tail
     }
   }
 
-  prepend(emoji: Emoji) {
+  prepend(elem: T) {
     if (this.head === null) {
-      this.head = new ListNode(emoji)
+      this.head = new ListNode(elem)
       this.tail = this.head
     } else {
-      const newHead = new ListNode(emoji)
+      const newHead = new ListNode(elem)
       newHead.nextNode = this.head
       this.head.prevNode = newHead
       this.head = newHead
     }
   }
 
-  moveNodeToHead(node: ListNode | null) {
+  moveNodeToHead(node: ListNode<T> | null) {
     if (node === null || node === this.head) {
       return
     }
@@ -105,8 +100,8 @@ class LinkedList {
     return this.head === null
   }
 
-  filter(predicate: Function): Emoji[] {
-    const result: Emoji[] = []
+  filter(predicate: Function) {
+    const result = new Array<T | null>()
     for (const elem of this) {
       if (predicate(elem)) {
         result.push(elem)

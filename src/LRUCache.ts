@@ -8,31 +8,31 @@ const EmptyEmoji: Emoji = {
   r: ''
 }
 
-export class LRUCache {
+export class LRUCache<T> {
   constructor(capacity: number) {
     this.capacity = capacity
     this.list = new LinkedList()
   }
   capacity: number
-  nodesMap: Map<Emoji, ListNode | null> = new Map<Emoji, ListNode | null>()
-  list: LinkedList
+  nodesMap: Map<T, ListNode<T> | null> = new Map<T, ListNode<T> | null>()
+  list: LinkedList<T>
 
   evictLeastRecentlyUsed() {
-    const emoji = this.list.tail?.emoji
-    if (emoji) {
-      this.nodesMap.delete(emoji)
+    const value = this.list.tail?.val
+    if (value) {
+      this.nodesMap.delete(value)
       this.list.removeLastNode()
     }
   }
 
-  addToCache(emoji: Emoji) {
-    this.list.prepend(emoji)
-    this.nodesMap.set(emoji, this.list.head)
+  addToCache(value: T) {
+    this.list.prepend(value)
+    this.nodesMap.set(value, this.list.head)
   }
 
-  insert(emoji: Emoji) {
-    if (this.nodesMap.has(emoji)) {
-      const node = this.nodesMap.get(emoji)
+  insert(elem: T) {
+    if (this.nodesMap.has(elem)) {
+      const node = this.nodesMap.get(elem)
       if (node) {
         this.list.moveNodeToHead(node)
       }
@@ -40,7 +40,7 @@ export class LRUCache {
       if (this.nodesMap.size === this.capacity) {
         this.evictLeastRecentlyUsed()
       }
-      this.addToCache(emoji)
+      this.addToCache(elem)
     }
   }
 
@@ -53,10 +53,9 @@ export class LRUCache {
 
     return {
       next() {
-        console.log('iterating ', currentNode)
-        if (!currentNode) return { value: EmptyEmoji, done: true }
+        if (!currentNode) return { value: null, done: true }
         const returnValue = {
-          value: currentNode.emoji,
+          value: currentNode.val,
           done: false
         }
         currentNode = currentNode.nextNode
