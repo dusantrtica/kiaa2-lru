@@ -5,14 +5,15 @@ import type { Emoji } from './types'
 describe('LRUCache', () => {
   it('adds single element to 5 elements capacity cache', () => {
     // Arrange
-    const cache = new LRUCache(5)
+    const cache = new LRUCache<Emoji>(5)
     const e1: Emoji = { u: '123', n: ['name1'] }
 
     // Act
     cache.insert(e1)
 
     // Assert
-    const emojis: Emoji[] = []
+    const emojis = new Array<Emoji | null>()
+
     for (const e of cache) {
       emojis.push(e)
     }
@@ -22,7 +23,7 @@ describe('LRUCache', () => {
 
   it('adds 2 items to cache and outputs them in the right order', () => {
     // Arrange
-    const cache = new LRUCache(5)
+    const cache = new LRUCache<Emoji>(5)
     const e1: Emoji = { u: '123', n: ['name1'] }
     const e2: Emoji = { u: '456', n: ['name2'] }
 
@@ -31,7 +32,8 @@ describe('LRUCache', () => {
     cache.insert(e2)
 
     // Assert
-    const emojis: Emoji[] = []
+    const emojis = new Array<Emoji | null>()
+
     for (const e of cache) {
       emojis.push(e)
     }
@@ -41,7 +43,7 @@ describe('LRUCache', () => {
 
   it('accessing second item in the cache will make it be the first', () => {
     // Arrange
-    const cache = new LRUCache(5)
+    const cache = new LRUCache<Emoji>(5)
     const e1: Emoji = { u: '123', n: ['name1'] }
     const e2: Emoji = { u: '456', n: ['name2'] }
 
@@ -52,7 +54,7 @@ describe('LRUCache', () => {
     cache.insert(e1)
 
     // Assert
-    const emojis: Emoji[] = []
+    const emojis = new Array<Emoji | null>()
     for (const e of cache) {
       emojis.push(e)
     }
@@ -62,7 +64,7 @@ describe('LRUCache', () => {
 
   it('removes the element from cache when another one is inserted', () => {
     // Arrange
-    const cache = new LRUCache(1)
+    const cache = new LRUCache<Emoji>(1)
     const e1: Emoji = { u: '123', n: ['name1'] }
     const e2: Emoji = { u: '456', n: ['name2'] }
 
@@ -71,7 +73,8 @@ describe('LRUCache', () => {
     cache.insert(e2)
 
     // Assert
-    const emojis: Emoji[] = []
+    const emojis = new Array<Emoji | null>()
+
     for (const e of cache) {
       emojis.push(e)
     }

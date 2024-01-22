@@ -100,10 +100,10 @@ class LinkedList<T> {
     return this.head === null
   }
 
-  filter(predicate: Function) {
-    const result = new Array<T | null>()
+  filter(predicate: Function): Array<T> {
+    const result = new Array<T>()
     for (const elem of this) {
-      if (predicate(elem)) {
+      if (elem && predicate(elem)) {
         result.push(elem)
       }
     }

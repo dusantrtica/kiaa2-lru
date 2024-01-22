@@ -146,7 +146,7 @@ describe('LinkedList', () => {
 
   it('moves tail node to head', () => {
     // Arrange
-    const list = new LinkedList()
+    const list = new LinkedList<Emoji>()
     const e1: Emoji = { u: '123', n: ['name1'] }
     const e2: Emoji = { u: '456', n: ['name2'] }
     list.addNode(e1)
@@ -156,7 +156,8 @@ describe('LinkedList', () => {
     list.moveNodeToHead(list.tail)
 
     // Assert
-    const emojis: Emoji[] = []
+    const emojis = new Array<Emoji | null>()
+
     expect(list.head?.val).toEqual(e2)
     expect(list.tail?.val).toEqual(e1)
     // Assert that iteration is not broken
@@ -183,7 +184,8 @@ describe('LinkedList', () => {
     expect(list.head?.val).toEqual(e2)
     expect(list.head?.nextNode?.val).toEqual(e1)
     expect(list.tail?.val).toEqual(e3)
-    const emojis: Emoji[] = []
+    const emojis = new Array<Emoji | null>()
+
     // Assert that iteration is not broken
     for (const node of list) {
       emojis.push(node)
@@ -208,7 +210,8 @@ describe('LinkedList', () => {
     expect(list.head?.val).toEqual(e3)
     expect(list.head?.nextNode?.val).toEqual(e2)
     expect(list.tail?.val).toEqual(e1)
-    const emojis: Emoji[] = []
+    const emojis = new Array<Emoji | null>()
+
     // Assert that iteration is not broken
     for (const node of list) {
       emojis.push(node)

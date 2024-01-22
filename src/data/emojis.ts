@@ -1,6 +1,6 @@
 import type { LinkedList } from '@/linkedList'
 import { type Emoji, type GroupKey } from '@/types'
-export type AllEmojis = Record<GroupKey, Emoji[] | LinkedList>
+export type AllEmojis = Record<GroupKey, Emoji[] | LinkedList<Emoji>>
 
 export default {
   smileys_people: [
