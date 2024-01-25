@@ -1,5 +1,3 @@
-import { type Emoji } from './types'
-
 export class ListNode<T> {
   val: T
   prevNode: ListNode<T> | null
