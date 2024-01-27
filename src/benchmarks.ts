@@ -8,37 +8,28 @@ import { Bench } from 'tinybench'
 
 const bench = new Bench({ time: 100 })
 
-bench
-  .add('Inserting 1000 random values into cache', () => {
-    const cache = new LRUCache<number>(10)
-    for (let i = 0; i < 1000; i++) {
+const createCacheAndInsertValues = (cacheSize = 10, numberOfElements = 10) => {
+  return () => {
+    const cache = new LRUCache<number>(cacheSize)
+    for (let i = 0; i < numberOfElements; i++) {
       cache.put(i, i)
     }
-  })
-  .add('Inserting 10000 random values into cache', () => {
-    const cache = new LRUCache<number>(10)
-    for (let i = 0; i < 10000; i++) {
-      cache.put(i, i)
-    }
-  })
-  .add('Inserting 100000 random values into cache', () => {
-    const cache = new LRUCache<number>(10)
-    for (let i = 0; i < 100000; i++) {
-      cache.put(i, i)
-    }
-  })
-  .add('Inserting 1000000 random values into cache', () => {
-    const cache = new LRUCache<number>(10)
-    for (let i = 0; i < 1000000; i++) {
-      cache.put(i, i)
-    }
-  })
-  .add('Inserting 10000000 random values into cache', () => {
-    const cache = new LRUCache<number>(10)
-    for (let i = 0; i < 10000000; i++) {
-      cache.put(i, i)
-    }
-  })
+  }
+}
+
+const insertIntoCacheBench = (bench: Bench) => {
+  const cacheSize = 10
+  const numberOfItemsToAdd = [1000, 10000, 100000, 1000000, 10000000]
+
+  for (const n of numberOfItemsToAdd) {
+    bench.add(
+      `Insert ${n} values into cache of size ${cacheSize}`,
+      createCacheAndInsertValues(cacheSize, n)
+    )
+  }
+}
+
+insertIntoCacheBench(bench)
 
 await bench.warmup() // make results more reliable, ref: https://github.com/tinylibs/tinybench/pull/50
 await bench.run()
