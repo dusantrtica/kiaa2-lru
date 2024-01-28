@@ -120,4 +120,10 @@ describe('get and put combination', () => {
 
     expect(getValues()).toEqual([2, 3, 1])
   })
+
+  it('returns null if element is not in the cache', () => {
+    const value = cache.get(10)
+    expect(value).toBe(null)
+    expect(getValues()).toEqual([3, 2, 1])
+  })
 })
